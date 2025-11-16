@@ -117,6 +117,7 @@ GameObject:
   - component: {fileID: 5968013367043832374}
   - component: {fileID: 8723127107902431893}
   - component: {fileID: 1005298866583369263}
+  - component: {fileID: 2634357419586939303}
   - component: {fileID: 2271161772229556750}
   - component: {fileID: 930887976732182071}
   - component: {fileID: 1117143519612003270}
@@ -180,7 +181,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 1677166833195202148}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 2162bea88bf1aa946a82743742af54c4, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -203,8 +204,43 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.075}
-  m_Size: {x: 0.5, y: 0.85}
+  m_Offset: {x: 0, y: -0.28}
+  m_Size: {x: 0.42, y: 0.0001}
+  m_Direction: 0
+--- !u!70 &2634357419586939303
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677166833195202148}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 1eba3189a3943e14e858376829901091, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.6, y: 0.7}
   m_Direction: 0
 --- !u!114 &2271161772229556750
 MonoBehaviour:
@@ -232,9 +268,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _input: {fileID: 0}
   _onGroundTrigger: {fileID: 9033535898236963417}
-  _moveSpeed: 2
+  _moveSpeed: 3
   _jumpForce: 5
-  _jumpsCount: 0
+  _jumpsCount: 1
   _jumpsCountMax: 1
 --- !u!114 &1117143519612003270
 MonoBehaviour:
