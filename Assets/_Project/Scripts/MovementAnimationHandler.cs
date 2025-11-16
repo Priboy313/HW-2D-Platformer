@@ -13,6 +13,8 @@ public class MovementAnimationHandler : MonoBehaviour
     private static readonly int s_isMove = Animator.StringToHash("isMove");
     private static readonly int s_AirVelocityY = Animator.StringToHash("AirVelocityY");
 
+    private bool _isMoving;
+
     private void Awake()
 	{
 		bool hasErrors = false;
@@ -57,11 +59,15 @@ public class MovementAnimationHandler : MonoBehaviour
     private void HandleMovementAnimation()
     {
         float moveDirection = _movementHandler.InputDirection;
-        bool isMoving = moveDirection != 0;
+        bool isMovingNow = moveDirection != 0;
 
-        _animator.SetBool(s_isMove, isMoving);
+        if (isMovingNow != _isMoving)
+        {
+            _isMoving = isMovingNow;
+            _animator.SetBool(s_isMove, _isMoving);
+        }
 
-        if (isMoving)
+        if (_isMoving)
         {
             _spriteRenderer.flipX = moveDirection < 0;
         }
