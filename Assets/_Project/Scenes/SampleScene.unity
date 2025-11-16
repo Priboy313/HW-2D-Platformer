@@ -265,7 +265,7 @@ MonoBehaviour:
   _zoomMin: 4
   _zoomMax: 10
   _zoomSpeed: 2
-  _zoomCurrent: 5
+  _zoomCurrent: 7
 --- !u!1 &658032276
 GameObject:
   m_ObjectHideFlags: 0
