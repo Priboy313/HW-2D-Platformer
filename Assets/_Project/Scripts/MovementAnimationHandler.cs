@@ -1,6 +1,4 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
 [RequireComponent(typeof(MovementHandler))]
 public class MovementAnimationHandler : MonoBehaviour
@@ -41,13 +39,13 @@ public class MovementAnimationHandler : MonoBehaviour
     private void OnEnable()
     {
 		_movementHandler.ActionJump += OnJump;
-		_movementHandler.ActionLanded += Onlanded;
+		_movementHandler.ActionLanded += OnLanded;
 	}
 
     private void OnDisable()
     {
         _movementHandler.ActionJump -= OnJump;
-        _movementHandler.ActionLanded -= Onlanded;
+        _movementHandler.ActionLanded -= OnLanded;
     }
 
     private void Update()
@@ -86,9 +84,9 @@ public class MovementAnimationHandler : MonoBehaviour
 		_animator.SetBool(s_isJump, true);
 	}
 
-	private void Onlanded()
+	private void OnLanded()
 	{
-        _animator.SetFloat(s_AirVelocityY, 0);
         _animator.SetBool(s_isJump, false);
+        _animator.SetFloat(s_AirVelocityY, 0);
     }
 }

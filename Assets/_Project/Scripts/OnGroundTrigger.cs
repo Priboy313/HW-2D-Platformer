@@ -4,6 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class OnGroundTrigger : MonoBehaviour
 {
+    [SerializeField] private LayerMask _groundLayer;
+
     private Rigidbody2D _rigidbody;
 
 	public event Action<bool> ActionOnGround;
@@ -31,7 +33,7 @@ public class OnGroundTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (_rigidbody.velocity.y <= 0 && collision.TryGetComponent<SolidSurface>(out _))
+        if (_rigidbody.velocity.y <= 0 && (_groundLayer.value & (1 << collision.gameObject.layer)) > 0)
         {
             ActionOnGround?.Invoke(true);
         }
@@ -39,7 +41,7 @@ public class OnGroundTrigger : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<SolidSurface>(out _))
+        if ((_groundLayer.value & (1 << collision.gameObject.layer)) > 0)
         {
             ActionOnGround?.Invoke(false);
         }

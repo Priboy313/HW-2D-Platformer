@@ -1,10 +1,14 @@
 using System;
 using UnityEngine;
 
-public class InputReader : MonoBehaviour 
+public class InputReader : MonoBehaviour, IInput
 {
-    private const KeyCode ZoomIn = KeyCode.KeypadPlus;
-    private const KeyCode ZoomOut = KeyCode.KeypadMinus;
+    public static InputReader Instance { get; private set; }
+
+    private const KeyCode KeyChangeDevPropRendering = KeyCode.KeypadMultiply;
+
+    private const KeyCode KeyZoomIn = KeyCode.KeypadPlus;
+    private const KeyCode KeyZoomOut = KeyCode.KeypadMinus;
     private const float ZoomKeyboardSpeed = 1f;
     private const bool IsZoomInvert = false;
 
@@ -15,6 +19,18 @@ public class InputReader : MonoBehaviour
     public event Action<float> ActionMove;
     public event Action ActionJump;
     public event Action<float> ActionZoomChange;
+    public event Action ActionDevRenderStateToggle;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
 
     private void Update()
     {
@@ -31,14 +47,19 @@ public class InputReader : MonoBehaviour
             ActionJump?.Invoke();
         }
 
-        if (Input.GetKeyDown(ZoomIn))
+        if (Input.GetKeyDown(KeyZoomIn))
         {
             ActionZoomChange?.Invoke(IsZoomInvert ? ZoomKeyboardSpeed : -ZoomKeyboardSpeed);
         }
 
-        if (Input.GetKeyDown(ZoomOut))
+        if (Input.GetKeyDown(KeyZoomOut))
         {
             ActionZoomChange?.Invoke(IsZoomInvert ? -ZoomKeyboardSpeed : ZoomKeyboardSpeed);
+        }
+
+        if (Input.GetKeyDown(KeyChangeDevPropRendering))
+        {
+            ActionDevRenderStateToggle?.Invoke();
         }
     }
 
