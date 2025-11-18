@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class InputReader : MonoBehaviour, IInput
 {
-    public static InputReader Instance { get; private set; }
+    private static InputReader _instance;
 
     private const KeyCode KeyChangeDevPropRendering = KeyCode.KeypadMultiply;
 
@@ -21,15 +21,34 @@ public class InputReader : MonoBehaviour, IInput
     public event Action<float> ActionZoomChange;
     public event Action ActionDevRenderStateToggle;
 
+    public static InputReader Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<InputReader>();
+                
+                if (_instance == null)
+                {
+                    GameObject newInputReader = new GameObject(nameof(InputReader));
+                    _instance = newInputReader.AddComponent<InputReader>();
+                }
+            }
+
+            return _instance;
+        }
+    }
+
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
-        Instance = this;
+        _instance = this;
     }
 
     private void Update()
