@@ -25,12 +25,9 @@ public class Coin : PoolableBase
         transform.rotation = Quaternion.identity;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void Collect()
     {
-        if (collision.TryGetComponent<CoinCollector>(out _))
-        {
-            ActionCollected?.Invoke(this);
-            ReleaseToPool();
-        }
+        ActionCollected?.Invoke(this);
+        ReleaseToPool();
     }
 }

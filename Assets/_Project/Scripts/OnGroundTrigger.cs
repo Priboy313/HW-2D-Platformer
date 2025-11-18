@@ -6,7 +6,10 @@ public class OnGroundTrigger : MonoBehaviour
 {
     [SerializeField] private LayerMask _groundLayer;
 
+    private int _groundContacts = 0;
+
     private Rigidbody2D _rigidbody;
+    private Collider2D _trigger;
 
 	public event Action<bool> ActionOnGround;
 
@@ -29,13 +32,19 @@ public class OnGroundTrigger : MonoBehaviour
         }
 
         enabled = !hasErrors;
+        _trigger = GetComponent<Collider2D>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (_rigidbody.velocity.y <= 0 && (_groundLayer.value & (1 << collision.gameObject.layer)) > 0)
         {
-            ActionOnGround?.Invoke(true);
+            if (_groundContacts == 0)
+            {
+                ActionOnGround?.Invoke(true);
+            }
+
+            _groundContacts++;
         }
     }
 
@@ -43,7 +52,14 @@ public class OnGroundTrigger : MonoBehaviour
     {
         if ((_groundLayer.value & (1 << collision.gameObject.layer)) > 0)
         {
-            ActionOnGround?.Invoke(false);
+            _groundContacts--;
+
+            _groundContacts = Mathf.Max(0, _groundContacts);
+
+            if (_groundContacts == 0)
+            {
+                ActionOnGround?.Invoke(false);
+            }
         }
     }
 }

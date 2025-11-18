@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class Path : MonoBehaviour
 {
-    public int WaypointsCount => Waypoints.Count;
-
     private List<WaypointBase> _waypoints;
+
+    public int WaypointsCount => Waypoints.Count;
 
     public List<WaypointBase> Waypoints 
     {
