@@ -1,11 +1,11 @@
 using UnityEngine;
 
-[RequireComponent(typeof(MovementHandler))]
-public class MovementAnimationHandler : MonoBehaviour
+[RequireComponent(typeof(CharacterMovementHandler))]
+public class CharacterAnimationHandler : MonoBehaviour
 {
 	private Animator _animator;
 	private SpriteRenderer _spriteRenderer;
-	private MovementHandler _movementHandler;
+	private CharacterMovementHandler _movementHandler;
 
     private static readonly int s_isJump = Animator.StringToHash("isJump");
     private static readonly int s_isMove = Animator.StringToHash("isMove");
@@ -33,19 +33,21 @@ public class MovementAnimationHandler : MonoBehaviour
         }
 
 		enabled = !hasErrors;
-		_movementHandler = GetComponent<MovementHandler>();
+		_movementHandler = GetComponent<CharacterMovementHandler>();
 	}
 
     private void OnEnable()
     {
 		_movementHandler.ActionJump += OnJump;
 		_movementHandler.ActionLanded += OnLanded;
+        _movementHandler.ActionKnockback += OnKnockback;
 	}
 
     private void OnDisable()
     {
         _movementHandler.ActionJump -= OnJump;
         _movementHandler.ActionLanded -= OnLanded;
+        _movementHandler.ActionKnockback -= OnKnockback;
     }
 
     private void Update()
@@ -56,18 +58,25 @@ public class MovementAnimationHandler : MonoBehaviour
 
     private void HandleMovementAnimation()
     {
-        float moveDirection = _movementHandler.InputDirection;
-        bool isMovingNow = moveDirection != 0;
-
-        if (isMovingNow != _isMoving)
+        if (_movementHandler.IsFreeAndReady)
         {
-            _isMoving = isMovingNow;
-            _animator.SetBool(s_isMove, _isMoving);
+            float moveDirection = _movementHandler.InputDirection;
+            bool isMovingNow = moveDirection != 0;
+
+            if (isMovingNow != _isMoving)
+            {
+                _isMoving = isMovingNow;
+                _animator.SetBool(s_isMove, _isMoving);
+            }
+
+            if (_isMoving)
+            {
+                _spriteRenderer.flipX = moveDirection < 0;
+            }
         }
-
-        if (_isMoving)
+        else
         {
-            _spriteRenderer.flipX = moveDirection < 0;
+            _animator.SetBool(s_isMove, false);
         }
     }
 
@@ -89,4 +98,10 @@ public class MovementAnimationHandler : MonoBehaviour
         _animator.SetBool(s_isJump, false);
         _animator.SetFloat(s_AirVelocityY, 0);
     }
+
+    private void OnKnockback()
+    {
+        _animator.SetBool(s_isJump, false);
+		_animator.SetBool(s_isMove, false);
+	}
 }

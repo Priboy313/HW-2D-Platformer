@@ -1,29 +1,49 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-public class MovementHandler : MonoBehaviour
+[RequireComponent(typeof(Rigidbody2D), typeof(Character))]
+public class CharacterMovementHandler : MonoBehaviour
 {
-    
-    [Header("Settings")]
+    [Header("Move")]
     [SerializeField] private float _moveSpeed = 4f;
-    [SerializeField] private float _jumpForce = 9f;
+	
+    [Header("Jump")]
+	[SerializeField] private float _jumpForce = 9f;
     [SerializeField] private float _jumpInAirForce = 7f;
-    [SerializeField] private int _jumpsCount = 0;
     [SerializeField] private int _jumpsCountMax = 1;
 
-    [Header("Gravity Settings")]
+    [Header("Knockback")]
+    [SerializeField] private float _knockbackForce = 9f;
+    [SerializeField, Range(0.01f, 1f)] private float _knockbackJumpForce = 0.1f;
+    [SerializeField] private float _knockbackDuration = .3f;
+
+    [Header("Gravity")]
     [SerializeField] private float _defaultGravityScale = 1.5f;
     [SerializeField] private float _fallingGravityMultiplier = 2f;
 
+    private int _jumpsCount = 0;
+	private bool _isKnockedBack = false;
+
 	private IInput _input;
+    private Character _character;
     private OnGroundTrigger _onGroundTrigger;
     public Rigidbody2D Rigidbody { get; private set; }
-    public float InputDirection { get; private set; } = 0;
+
+    public bool IsFreeAndReady 
+    { 
+        get
+        {
+            return !_isKnockedBack;
+        }
+    }
+
+	public float InputDirection { get; private set; } = 0;
     public bool IsOnGround { get; private set; } = true;
 
     public event Action ActionJump;
     public event Action ActionLanded;
+    public event Action ActionKnockback;
 
     private void Awake()
     {
@@ -52,6 +72,7 @@ public class MovementHandler : MonoBehaviour
 
         enabled = !hasErrors;
 
+        _character = GetComponent<Character>();
         Rigidbody = GetComponent<Rigidbody2D>();
         Rigidbody.gravityScale = _defaultGravityScale;
     }
@@ -60,6 +81,7 @@ public class MovementHandler : MonoBehaviour
     {
         _input.ActionMove += OnInputMove;
         _input.ActionJump += OnInputJump;
+        _character.ActionKnockback += OnKnockback;
         _onGroundTrigger.ActionOnGround += OnGroundStateChanged;
     }
 
@@ -69,6 +91,11 @@ public class MovementHandler : MonoBehaviour
         {
             _input.ActionMove -= OnInputMove;
             _input.ActionJump -= OnInputJump;
+        }
+
+        if (_character != null)
+        {
+            _character.ActionKnockback -= OnKnockback;
         }
 
         if (_onGroundTrigger != null)
@@ -81,7 +108,10 @@ public class MovementHandler : MonoBehaviour
 	{
         Rigidbody.gravityScale = Rigidbody.velocity.y >= 0 ? _defaultGravityScale : _defaultGravityScale * _fallingGravityMultiplier;
 
-        Rigidbody.velocity = new Vector2(InputDirection * _moveSpeed, Rigidbody.velocity.y);
+        if (IsFreeAndReady)
+        {
+            Rigidbody.velocity = new Vector2(InputDirection * _moveSpeed, Rigidbody.velocity.y);
+        }
 	}
 
     private void OnInputMove(float direction)
@@ -102,6 +132,19 @@ public class MovementHandler : MonoBehaviour
         }
     }
 
+    private void OnKnockback(Vector3 damageSourcePosition)
+    {
+        Vector2 pushingDirection = new Vector2();
+        pushingDirection = (transform.position - damageSourcePosition).normalized;
+        pushingDirection = (pushingDirection + Vector2.up * _knockbackJumpForce).normalized;
+
+        Rigidbody.velocity = Vector2.zero;
+
+        StartCoroutine(OnKnockbackRoutine());
+
+        Rigidbody.AddForce(pushingDirection * _knockbackForce, ForceMode2D.Impulse);
+    }
+
     private void Jump(float force)
     {
         Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, 0);
@@ -118,5 +161,15 @@ public class MovementHandler : MonoBehaviour
         }
 
         IsOnGround = isOnGround;
+    }
+
+    private IEnumerator OnKnockbackRoutine()
+    {
+        _isKnockedBack = true;
+        ActionKnockback?.Invoke();
+
+        yield return new WaitForSeconds(_knockbackDuration);
+
+        _isKnockedBack = false;
     }
 }

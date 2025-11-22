@@ -150,6 +150,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5968013367043832374}
   - component: {fileID: 8723127107902431893}
+  - component: {fileID: 4286344318506201594}
   - component: {fileID: 930887976732182071}
   - component: {fileID: 1117143519612003270}
   m_Layer: 3
@@ -203,6 +204,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &4286344318506201594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677166833195202148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d335b62d9f1196a4ead406c120d785bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healthMax: 5
+  _damage: 1
 --- !u!114 &930887976732182071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,8 +233,9 @@ MonoBehaviour:
   _moveSpeed: 4
   _jumpForce: 9
   _jumpInAirForce: 7
-  _jumpsCount: 1
   _jumpsCountMax: 1
+  _knockbackForce: 9
+  _knockbackDuration: 0.3
   _defaultGravityScale: 1.5
   _fallingGravityMultiplier: 2
 --- !u!114 &1117143519612003270
@@ -244,6 +260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2071656507554640183}
   - component: {fileID: 7673719189733818808}
+  - component: {fileID: 7047946849425155891}
   m_Layer: 3
   m_Name: Legs
   m_TagString: Untagged
@@ -301,6 +318,20 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.28}
   m_Size: {x: 0.38, y: 0.0001}
   m_Direction: 0
+--- !u!114 &7047946849425155891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950418188521378836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 887729be0ca190b46a3b6037842ff663, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 0
+  _canKnockback: 1
 --- !u!1 &2712828275863411828
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,6 +343,7 @@ GameObject:
   - component: {fileID: 8941321125573328583}
   - component: {fileID: 8789715737154418592}
   - component: {fileID: 2397534287034902874}
+  - component: {fileID: 8738143857714311678}
   m_Layer: 3
   m_Name: Body
   m_TagString: Untagged
@@ -381,6 +413,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa39888b41a6fd543a4f08681798d1c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8738143857714311678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2712828275863411828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44c995e2200f07e4fb95751df020c2b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _takingDelay: 1
 --- !u!1 &5245282683917497640
 GameObject:
   m_ObjectHideFlags: 0
