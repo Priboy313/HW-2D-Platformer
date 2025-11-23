@@ -745,6 +745,17 @@ Transform:
   - {fileID: 1403672461}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1295800836 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3008457566637239545, guid: d3493deb183b8334b905f23480654f3c, type: 3}
+  m_PrefabInstance: {fileID: 1912447096}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df3c50fc19b00564c837d1150cc26504, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1318248625 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5584474867502920344, guid: d3493deb183b8334b905f23480654f3c, type: 3}
@@ -2956,6 +2967,10 @@ PrefabInstance:
       propertyPath: _path
       value: 
       objectReference: {fileID: 1489064785}
+    - target: {fileID: 3008457566637239545, guid: d3493deb183b8334b905f23480654f3c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3823536282573524481, guid: d3493deb183b8334b905f23480654f3c, type: 3}
       propertyPath: m_Name
       value: Mob (1)
@@ -3000,6 +3015,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7829167070186145714, guid: d3493deb183b8334b905f23480654f3c, type: 3}
+      propertyPath: _currentController
+      value: 
+      objectReference: {fileID: 1295800836}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3289,8 +3308,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 260991891}
     m_Modifications:
     - target: {fileID: 3008457566637239545, guid: d3493deb183b8334b905f23480654f3c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3008457566637239545, guid: d3493deb183b8334b905f23480654f3c, type: 3}
       propertyPath: _patrolState
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3823536282573524481, guid: d3493deb183b8334b905f23480654f3c, type: 3}
       propertyPath: m_Name
@@ -3335,6 +3358,10 @@ PrefabInstance:
     - target: {fileID: 5584474867502920344, guid: d3493deb183b8334b905f23480654f3c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7829167070186145714, guid: d3493deb183b8334b905f23480654f3c, type: 3}
+      propertyPath: _currentController
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

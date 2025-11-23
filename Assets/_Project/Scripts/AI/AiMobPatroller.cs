@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class AiMobPatroller : MonoBehaviour, IAIMobController
+public class AiMobPatroller : AIMobBase
 {
     [SerializeField] private AIPatrolStates _patrolState;
     [SerializeField] private Path _path;
@@ -11,11 +10,7 @@ public class AiMobPatroller : MonoBehaviour, IAIMobController
     private float _reachDistance = 0.5f;
     private float _reachDistanceSqr;
 
-    public event Action<float> ActionMove;
-
-    #pragma warning disable 0067
-    public event Action ActionJump;
-    #pragma warning restore 0067
+    public override event Action<float> ActionMove;
 
     private void Awake()
     {
@@ -38,9 +33,10 @@ public class AiMobPatroller : MonoBehaviour, IAIMobController
 
         enabled = !hasErros;
         _reachDistanceSqr = _reachDistance * _reachDistance;
+        enabled = false;
     }
 
-    private void Update()
+    public override void AIUpdate()
 	{
         switch (_patrolState)
         {
