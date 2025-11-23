@@ -9,8 +9,8 @@ public class CharacterMovementHandler : MonoBehaviour
     [SerializeField] private float _moveSpeed = 4f;
 	
     [Header("Jump")]
-	[SerializeField] private float _jumpForce = 9f;
-    [SerializeField] private float _jumpInAirForce = 7f;
+	[SerializeField] private float _jumpHeight = 4f;
+    [SerializeField] private float _jumpInAirHeight = 3f;
     [SerializeField] private int _jumpsCountMax = 1;
 
     [Header("Knockback")]
@@ -123,13 +123,23 @@ public class CharacterMovementHandler : MonoBehaviour
     {
         if (IsOnGround)
         {
-            Jump(_jumpForce);
+            Jump(GetJumpForce(_jumpHeight));
         }
         else if (_jumpsCount > 0)
         {
-            Jump(_jumpInAirForce);
+            Jump(GetJumpForce(_jumpInAirHeight));
             _jumpsCount--;
         }
+    }
+
+    private float GetJumpForce(float height)
+    {
+        float gravity = Mathf.Abs(Physics2D.gravity.y * _defaultGravityScale);
+        
+        // v = sqrt(2 * g * h)
+        float velocity = Mathf.Sqrt(2 * gravity * height);
+
+        return velocity * Rigidbody.mass;
     }
 
     private void OnKnockback(Vector3 damageSourcePosition)

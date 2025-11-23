@@ -231,12 +231,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 4
-  _jumpForce: 9
-  _jumpInAirForce: 7
+  _jumpHeight: 3
+  _jumpInAirHeight: 2
   _jumpsCountMax: 1
   _knockbackForce: 9
+  _knockbackJumpForce: 0.1
   _knockbackDuration: 0.3
-  _defaultGravityScale: 1.5
+  _defaultGravityScale: 2
   _fallingGravityMultiplier: 2
 --- !u!114 &1117143519612003270
 MonoBehaviour:
