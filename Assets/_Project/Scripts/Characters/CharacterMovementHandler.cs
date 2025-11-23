@@ -15,11 +15,11 @@ public class CharacterMovementHandler : MonoBehaviour
 
     [Header("Knockback")]
     [SerializeField] private float _knockbackForce = 9f;
-    [SerializeField, Range(0.01f, 1f)] private float _knockbackJumpForce = 0.1f;
-    [SerializeField] private float _knockbackDuration = .3f;
+    [SerializeField, Range(0.01f, 1f)] private float _knockbackJumpForce = 0.2f;
+    [SerializeField] private float _knockbackDuration = .4f;
 
     [Header("Gravity")]
-    [SerializeField] private float _defaultGravityScale = 1.5f;
+    [SerializeField] private float _defaultGravityScale = 2f;
     [SerializeField] private float _fallingGravityMultiplier = 2f;
 
     private int _jumpsCount = 0;
@@ -145,8 +145,9 @@ public class CharacterMovementHandler : MonoBehaviour
     private void OnKnockback(Vector3 damageSourcePosition)
     {
         Vector2 pushingDirection = new Vector2();
-        pushingDirection = (transform.position - damageSourcePosition).normalized;
-        pushingDirection = (pushingDirection + Vector2.up * _knockbackJumpForce).normalized;
+        pushingDirection = transform.position - damageSourcePosition;
+        pushingDirection.y = 0;
+        pushingDirection = (pushingDirection.normalized + Vector2.up * _knockbackJumpForce).normalized;
 
         Rigidbody.velocity = Vector2.zero;
 

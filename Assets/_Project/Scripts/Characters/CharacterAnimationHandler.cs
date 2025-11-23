@@ -76,7 +76,11 @@ public class CharacterAnimationHandler : MonoBehaviour
         }
         else
         {
-            _animator.SetBool(s_isMove, false);
+            if (_isMoving)
+            {
+                _isMoving = false;
+                _animator.SetBool(s_isMove, false);
+            }
         }
     }
 

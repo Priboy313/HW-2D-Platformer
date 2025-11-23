@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class AiMobPatroller : AIMobBase
+public class AIMobPatroller : AIMobBase
 {
     [SerializeField] private AIPatrolStates _patrolState;
     [SerializeField] private Path _path;
@@ -76,5 +76,10 @@ public class AiMobPatroller : AIMobBase
         {
             ActionMove?.Invoke(0f);
         }
+    }
+
+    private void OnBetweenCollidersState()
+    {
+
     }
 }

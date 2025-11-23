@@ -1,14 +1,21 @@
 using System;
 using UnityEngine;
 
-public class AiMobSwitcher : MonoBehaviour, IInput
+public class AIMobSwitcher : MonoBehaviour, IInput
 {
 	[SerializeField, HideInInspector] private AIMobBase _currentController;
+	[SerializeField, HideInInspector] private bool _isAggressive;
 
 	public AIMobBase CurrentController
 	{
 		get => _currentController;
 		set => SwitchController(value);
+	}
+
+	public bool IsAggressive
+	{
+		get => _isAggressive;
+		set => _isAggressive = value;
 	}
 
 	public event Action<float> ActionMove;
@@ -20,9 +27,9 @@ public class AiMobSwitcher : MonoBehaviour, IInput
 
 		_currentController = null;
 
-		if (_currentController != null)
+		if (startController != null)
 		{
-			SwitchController(_currentController);
+			SwitchController(startController);
 		}
 		else
 		{
