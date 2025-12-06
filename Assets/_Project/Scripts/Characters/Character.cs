@@ -4,10 +4,9 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour, IDamageSource
 {
+	[SerializeField] private float _healthCurrent;
 	[SerializeField, Min(1)] private float _healthMax = 1;
 	[SerializeField] private float _damage = 0;
-
-	private float _healthCurrent;
 
 	private List<Damageable> _damageableParts;
 
