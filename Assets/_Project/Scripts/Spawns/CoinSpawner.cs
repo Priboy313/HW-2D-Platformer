@@ -57,10 +57,18 @@ public class CoinSpawner : MonoBehaviour
         }
     }
 
-    private void OnCoinCollected(Coin coin)
+    private void OnCoinCollected(CollectableBase collectable)
     {
-        coin.ActionCollected -= OnCoinCollected;
-        StartCoroutine(SetSpawnPointCooldown(coin.SpawnPoint));
+        collectable.ActionCollected -= OnCoinCollected;
+        
+        if (collectable is Coin coint)
+        {
+            StartCoroutine(SetSpawnPointCooldown(collectable.SpawnPoint));
+        }
+        else
+        {
+			Debug.LogError("Collected object is NOT a Coin!", this);
+		}
     }
 
     private void SpawnCoinOnFreePoint()

@@ -162,40 +162,6 @@ Transform:
   - {fileID: 1318248625}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &344741145
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 344741146}
-  m_Layer: 0
-  m_Name: CoinSpawnPoints
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &344741146
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 344741145}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6020154265533182267}
-  - {fileID: 2087760788}
-  - {fileID: 1857687321}
-  m_Father: {fileID: 915962861}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &399227629 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5144995164992204028, guid: d3493deb183b8334b905f23480654f3c, type: 3}
@@ -690,6 +656,40 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &807841990
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 807841991}
+  m_Layer: 0
+  m_Name: Spawners1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &807841991
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807841990}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1857687321}
+  - {fileID: 2087760788}
+  - {fileID: 6020154265533182267}
+  m_Father: {fileID: 915962861}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &915962860
 GameObject:
   m_ObjectHideFlags: 0
@@ -719,7 +719,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 344741146}
+  - {fileID: 807841991}
   m_Father: {fileID: 1935553927}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1005513652
@@ -2894,7 +2894,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 344741146}
+    m_TransformParent: {fileID: 807841991}
     m_Modifications:
     - target: {fileID: 163620645872950479, guid: 1840ab1c8240a894286b81c399a2df93, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3086,7 +3086,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 344741146}
+    m_TransformParent: {fileID: 807841991}
     m_Modifications:
     - target: {fileID: 163620645872950479, guid: 1840ab1c8240a894286b81c399a2df93, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3643,7 +3643,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 344741146}
+    m_TransformParent: {fileID: 807841991}
     m_Modifications:
     - target: {fileID: 163620645872950479, guid: 1840ab1c8240a894286b81c399a2df93, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3711,6 +3711,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CoinSpawner
       objectReference: {fileID: 0}
+    - target: {fileID: 1182760484527469759, guid: be3e894a9cea36f4aa910acd5dbfab0d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3951419217160160519, guid: be3e894a9cea36f4aa910acd5dbfab0d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3754,7 +3758,7 @@ PrefabInstance:
     - target: {fileID: 7873008953127772149, guid: be3e894a9cea36f4aa910acd5dbfab0d, type: 3}
       propertyPath: _spawnPointsRoot
       value: 
-      objectReference: {fileID: 344741145}
+      objectReference: {fileID: 807841990}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

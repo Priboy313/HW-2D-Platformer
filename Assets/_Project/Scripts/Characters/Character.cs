@@ -41,6 +41,13 @@ public abstract class Character : MonoBehaviour, IDamageSource
 				part.Init(this);
 			}
 		}
+
+		Collector collector = GetComponentInChildren<Collector>();
+
+		if (collector != null)
+		{
+			collector.Init(this);
+		}
 	}
 
 	private void OnEnable()
@@ -79,5 +86,14 @@ public abstract class Character : MonoBehaviour, IDamageSource
 	protected virtual void Die()
 	{
 		Destroy(gameObject);
+	}
+
+	public virtual void OnHealTaken(float heal)
+	{
+		if (heal > 0)
+		{
+			float newHealth = _healthCurrent + heal;
+			_healthCurrent = newHealth > _healthMax ? _healthMax : newHealth;
+		}
 	}
 }
