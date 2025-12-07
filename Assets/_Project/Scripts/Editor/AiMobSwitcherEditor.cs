@@ -71,6 +71,19 @@ public class AIMobSwitcherEditor : Editor
 			switcher.IsAggressive = newAggressive;
 			EditorUtility.SetDirty(switcher);
 		}
+
+		if (switcher.IsAggressive)
+		{
+			if (switcher.GetComponent<AIMobPursuer>() == null)
+			{
+				EditorGUILayout.HelpBox("'AIMobPursuer' component is missing!", MessageType.Error);
+			
+				if (GUILayout.Button("Add AIMobPursuer"))
+				{
+					Undo.AddComponent<AIMobPursuer>(switcher.gameObject);
+				}
+			}
+		}
 	}
 
 	private void DrawRuntimeInfo(AIMobSwitcher switcher)

@@ -14,24 +14,21 @@ public class AIMobPatroller : AIMobBase
 
     private void Awake()
     {
-        bool hasErros = false;
-
         if (_patrolState == AIPatrolStates.OnPath)
         {
             if (_path == null)
             {
                 Debug.LogError("Path to patrol not set!");
-                hasErros = true;
+                _patrolState = AIPatrolStates.Idle;
             }
 
             if (_path.WaypointsCount == 0)
             {
                 Debug.LogError("Waypoints on patrol path not set!", _path);
-                hasErros = true;
+                _patrolState = AIPatrolStates.Idle;
             }
         }
 
-        enabled = !hasErros;
         _reachDistanceSqr = _reachDistance * _reachDistance;
         enabled = false;
     }
@@ -76,10 +73,5 @@ public class AIMobPatroller : AIMobBase
         {
             ActionMove?.Invoke(0f);
         }
-    }
-
-    private void OnBetweenCollidersState()
-    {
-
     }
 }

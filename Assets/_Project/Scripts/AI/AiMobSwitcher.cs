@@ -6,6 +6,10 @@ public class AIMobSwitcher : MonoBehaviour, IInput
 	[SerializeField, HideInInspector] private AIMobBase _currentController;
 	[SerializeField, HideInInspector] private bool _isAggressive;
 
+	private AIMobBase _defaultController;
+	private AIMobPursuer _pursuerController;
+	private AIMobVisionHandler _vision;
+
 	public AIMobBase CurrentController
 	{
 		get => _currentController;
@@ -21,24 +25,56 @@ public class AIMobSwitcher : MonoBehaviour, IInput
 	public event Action<float> ActionMove;
 	public event Action ActionJump;
 
+	private void Awake()
+	{
+		if (IsAggressive)
+		{
+			_pursuerController = GetComponent<AIMobPursuer>();
+			_vision = GetComponentInChildren<AIMobVisionHandler>();
+		}
+	}
+
 	private void Start()
 	{
-		AIMobBase startController = _currentController;
+		_defaultController = _currentController;
+
+		if (_defaultController == null)
+		{
+			var allControllers = GetComponents<AIMobBase>();
+
+			foreach (var controller in allControllers)
+			{
+				if (controller != _pursuerController)
+				{
+					_defaultController = controller;
+					break;
+				}
+			}
+		}
 
 		_currentController = null;
-
-		if (startController != null)
+		
+		if (_defaultController != null)
 		{
-			SwitchController(startController);
+			SwitchController(_defaultController);
 		}
-		else
+
+		if (IsAggressive)
 		{
-			AIMobBase controller = GetComponent<AIMobBase>();
-			
-			if (controller != null)
+			if (_vision != null && _pursuerController != null)
 			{
-				SwitchController(controller);
+				_vision.ActionTargetFound += OnTargetFound;
+				_vision.ActionTargetLost += OnTargetLost;
 			}
+		}
+	}
+
+	private void OnDestroy()
+	{
+		if (_vision != null)
+		{
+			_vision.ActionTargetFound -= OnTargetFound;
+			_vision.ActionTargetLost -= OnTargetLost;
 		}
 	}
 
@@ -82,5 +118,27 @@ public class AIMobSwitcher : MonoBehaviour, IInput
 	private void OnJump()
 	{
 		ActionJump?.Invoke();
+	}
+
+	private void OnTargetFound(Character target)
+	{
+		if (IsAggressive == false)
+		{
+			return;
+		}
+
+		_pursuerController.SetTarget(target);
+		SwitchController(_pursuerController);
+	}
+
+	private void OnTargetLost()
+	{
+		if (IsAggressive == false)
+		{
+			return;
+		}
+
+		_pursuerController.SetTarget(null);
+		SwitchController(_defaultController);
 	}
 }

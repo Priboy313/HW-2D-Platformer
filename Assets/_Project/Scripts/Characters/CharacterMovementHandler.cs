@@ -6,10 +6,10 @@ using UnityEngine;
 public class CharacterMovementHandler : MonoBehaviour
 {
     [Header("Move")]
-    [SerializeField] private float _moveSpeed = 4f;
+    [SerializeField] private float _moveSpeed = 3f;
 	
     [Header("Jump")]
-	[SerializeField] private float _jumpHeight = 4f;
+	[SerializeField] private float _jumpHeight = 3f;
     [SerializeField] private float _jumpInAirHeight = 3f;
     [SerializeField] private int _jumpsCountMax = 1;
 
