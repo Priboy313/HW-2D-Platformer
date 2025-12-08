@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D), typeof(Character))]
 public class CharacterMovementHandler : MonoBehaviour
 {
+    [SerializeField] private InputEventChannel _inputChannel;
+
     [Header("Move")]
     [SerializeField] private float _moveSpeed = 3f;
 	
@@ -16,7 +18,7 @@ public class CharacterMovementHandler : MonoBehaviour
     [Header("Knockback")]
     [SerializeField] private float _knockbackForce = 9f;
     [SerializeField, Range(0.01f, 1f)] private float _knockbackJumpForce = 0.2f;
-    [SerializeField] private float _knockbackDuration = .4f;
+    [SerializeField] private float _knockbackDuration = .3f;
 
     [Header("Gravity")]
     [SerializeField] private float _defaultGravityScale = 2f;
@@ -49,17 +51,19 @@ public class CharacterMovementHandler : MonoBehaviour
     {
         bool hasErrors = false;
 
-        _input = GetComponent<IInput>();
-
-        if (_input == null)
+        if (_inputChannel == null)
         {
-            _input = InputReader.Instance;
-
+            _input = GetComponent<IInput>();
+            
             if (_input == null)
             {
                 Debug.LogError("InputReader not set!");
                 hasErrors = true;
             }
+        }
+        else
+        {
+            _input = _inputChannel;
         }
 
         _onGroundTrigger = GetComponentInChildren<OnGroundTrigger>();

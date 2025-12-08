@@ -3,8 +3,8 @@ using UnityEngine;
 public class InGameRenderingHandler : MonoBehaviour
 {
     [SerializeField] private bool _autoHideInAwake = true;
+	[SerializeField] private InputEventChannel _inputChannel;
 
-    private InputReader _input;
     private bool isActiveRendering = true;
 
     private void Awake()
@@ -14,30 +14,23 @@ public class InGameRenderingHandler : MonoBehaviour
             HideAllRenderers();
         }
 
-        _input = InputReader.Instance;
-
-        if (_input == null)
+        if (_inputChannel == null)
         {
-            _input = FindObjectOfType<InputReader>();
-
-            if (_input == null)
-            {
-                Debug.LogError("InputReader not set!");
-                enabled = false;
-            }
+            Debug.LogError("InputReader not set!");
+            enabled = false;
         }
     }
 
     private void OnEnable()
     {
-        _input.ActionDevRenderStateToggle += OnDevPropRenderingChange;
+        _inputChannel.ActionDevRenderStateToggle += OnDevPropRenderingChange;
     }
 
     private void OnDisable()
     {
-        if (_input != null)
+        if (_inputChannel != null)
         {
-            _input.ActionDevRenderStateToggle -= OnDevPropRenderingChange;
+            _inputChannel.ActionDevRenderStateToggle -= OnDevPropRenderingChange;
         }
     }
 

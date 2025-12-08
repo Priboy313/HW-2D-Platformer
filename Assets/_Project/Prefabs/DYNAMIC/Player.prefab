@@ -216,6 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d335b62d9f1196a4ead406c120d785bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _healthCurrent: 0
   _healthMax: 5
   _damage: 1
 --- !u!114 &930887976732182071
@@ -230,13 +231,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d018fa0641b1d14b90c0fb32fe5dab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inputChannel: {fileID: 11400000, guid: 8cd61cb0bd58c77469603222cfbfd79d, type: 2}
   _moveSpeed: 4
   _jumpHeight: 3
   _jumpInAirHeight: 2
   _jumpsCountMax: 1
   _knockbackForce: 9
   _knockbackJumpForce: 0.4
-  _knockbackDuration: 0.4
+  _knockbackDuration: 0.3
   _defaultGravityScale: 2
   _fallingGravityMultiplier: 2
 --- !u!114 &1117143519612003270

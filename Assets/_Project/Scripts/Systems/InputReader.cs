@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-public class InputReader : MonoBehaviour, IInput
+public class InputReader : MonoBehaviour
 {
-    private static InputReader _instance;
+    [SerializeField] private InputEventChannel _inputChannel;
 
     private const KeyCode KeyChangeDevPropRendering = KeyCode.KeypadMultiply;
 
@@ -16,42 +16,16 @@ public class InputReader : MonoBehaviour, IInput
     private const string AxisHorizontal = "Horizontal";
     private const string ButtonJumpName = "Jump";
 
-    public event Action<float> ActionMove;
-    public event Action ActionJump;
-    public event Action<float> ActionZoomChange;
-    public event Action ActionDevRenderStateToggle;
-
-    public static InputReader Instance
-    {
-        get
+	private void Awake()
+	{
+		if (_inputChannel == null)
         {
-            if (_instance == null)
-            {
-                _instance = FindObjectOfType<InputReader>();
-                
-                if (_instance == null)
-                {
-                    GameObject newInputReader = new GameObject(nameof(InputReader));
-                    _instance = newInputReader.AddComponent<InputReader>();
-                }
-            }
-
-            return _instance;
+            Debug.LogError("Input Channel not set!", this);
+            enabled = false;
         }
-    }
+	}
 
-    private void Awake()
-    {
-        if (_instance != null && _instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        _instance = this;
-    }
-
-    private void Update()
+	private void Update()
     {
         ObserveKeyboard();
         ObserveMouse();
@@ -59,26 +33,27 @@ public class InputReader : MonoBehaviour, IInput
 
     private void ObserveKeyboard()
     {
-        ActionMove?.Invoke(Input.GetAxisRaw(AxisHorizontal));
+		_inputChannel.RaiseMove(Input.GetAxisRaw(AxisHorizontal));
 
         if (Input.GetButtonDown(ButtonJumpName))
         {
-            ActionJump?.Invoke();
-        }
+            _inputChannel.RaiseJump();
+
+		}
 
         if (Input.GetKeyDown(KeyZoomIn))
         {
-            ActionZoomChange?.Invoke(IsZoomInvert ? ZoomKeyboardSpeed : -ZoomKeyboardSpeed);
+			_inputChannel.RaiseZoomChange(IsZoomInvert ? ZoomKeyboardSpeed : -ZoomKeyboardSpeed);
         }
 
         if (Input.GetKeyDown(KeyZoomOut))
         {
-            ActionZoomChange?.Invoke(IsZoomInvert ? -ZoomKeyboardSpeed : ZoomKeyboardSpeed);
+            _inputChannel.RaiseZoomChange(IsZoomInvert ? -ZoomKeyboardSpeed : ZoomKeyboardSpeed);
         }
 
         if (Input.GetKeyDown(KeyChangeDevPropRendering))
         {
-            ActionDevRenderStateToggle?.Invoke();
+            _inputChannel.RaiseDevRenderStateToggle();
         }
     }
 
@@ -88,7 +63,7 @@ public class InputReader : MonoBehaviour, IInput
 
         if (scrollWheel != 0)
         {
-            ActionZoomChange?.Invoke(IsZoomInvert ? scrollWheel : -scrollWheel);
+            _inputChannel.RaiseZoomChange(IsZoomInvert ? scrollWheel : -scrollWheel);
         }
     }
 }

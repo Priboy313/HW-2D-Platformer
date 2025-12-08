@@ -3,6 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class CameraHandler : MonoBehaviour
 {
+	[SerializeField] private InputEventChannel _inputChannel;
+
 	[Header("Following")]
 	[SerializeField] private Transform _followedObject;
 	[SerializeField] private float _speed = 2f;
@@ -13,7 +15,6 @@ public class CameraHandler : MonoBehaviour
 	[SerializeField] private float _zoomSpeed = 0.2f;
 	[SerializeField] private float _zoomCurrent = 6f;
 
-	private InputReader _input;
 	private Camera _camera;
 
     private void OnValidate()
@@ -31,17 +32,10 @@ public class CameraHandler : MonoBehaviour
 
     private void Awake()
     {
-        _input = InputReader.Instance;
-
-        if (_input == null)
+        if (_inputChannel == null)
         {
-            _input = FindObjectOfType<InputReader>();
-
-            if (_input == null)
-            {
-                Debug.LogError("InputReader not set!");
-                enabled = false;
-            }
+            Debug.LogError("InputReader not set!");
+            enabled = false;
         }
 
         _camera = GetComponent<Camera>();
@@ -54,14 +48,14 @@ public class CameraHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        _input.ActionZoomChange += OnZoomChange;
+        _inputChannel.ActionZoomChange += OnZoomChange;
     }
 
     private void OnDisable()
     {
-		if (_input != null)
+		if (_inputChannel != null)
 		{
-			_input.ActionZoomChange -= OnZoomChange;
+			_inputChannel.ActionZoomChange -= OnZoomChange;
 		}
     }
 
