@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "InputChannel", menuName = "Gameplay/Input/InputChannel")]
+[CreateAssetMenu(fileName = "InputChannel", menuName = "Gameplay/InputChannel")]
 public class InputEventChannel : ScriptableObject, IInput
 {
 	public event Action<float> ActionMove;
