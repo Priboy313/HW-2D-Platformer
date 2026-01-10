@@ -1,16 +1,17 @@
+using HealthUISystem;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Character : MonoBehaviour, IDamageSource
+public abstract class Character : MonoBehaviour, IDamageSource, IHealthOwner
 {
 	[SerializeField] private float _healthCurrent;
 	[SerializeField, Min(1)] private float _healthMax = 1;
 	[SerializeField] private float _damage = 0;
 
-	private List<Damageable> _damageableParts;
+	private List<Damageable> _damageableParts = new();
 
-	private List<IHealthUI> _healthUI;
+	private List<IHealthUI> _healthUI = new();
 
 	public float Damage => _damage;
 
@@ -24,7 +25,6 @@ public abstract class Character : MonoBehaviour, IDamageSource
 
 		if (damageables.Length > 0)
 		{
-			_damageableParts = new();
 			_damageableParts.AddRange(damageables);
 		}
 		else
@@ -54,7 +54,6 @@ public abstract class Character : MonoBehaviour, IDamageSource
 
 		if (healthUI.Length > 0)
 		{
-			_healthUI = new();
 			_healthUI.AddRange(healthUI);
 			UpdateUIHealth();
 		}

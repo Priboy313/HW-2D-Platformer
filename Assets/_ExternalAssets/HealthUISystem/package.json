@@ -1,0 +1,13 @@
+{
+    "name": "com.priboy313.healthuisystem",
+    "version": "0.0.1",
+    "displayName": "Universal Health UI",
+    "description": "A modular health bar system.",
+    "unity": "2022.3",
+    "author": {
+        "name": "Priboy313"
+    },
+    "dependencies": {
+        "com.unity.textmeshpro": "3.0.6"
+    }
+}
