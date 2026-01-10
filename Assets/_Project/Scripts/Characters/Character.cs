@@ -10,6 +10,8 @@ public abstract class Character : MonoBehaviour, IDamageSource
 
 	private List<Damageable> _damageableParts;
 
+	private List<IHealthUI> _healthUI;
+
 	public float Damage => _damage;
 
 	public event Action<Vector3> ActionKnockback;
@@ -47,6 +49,15 @@ public abstract class Character : MonoBehaviour, IDamageSource
 		{
 			collector.Init(this);
 		}
+
+		IHealthUI[] healthUI = GetComponentsInChildren<IHealthUI>();
+
+		if (healthUI.Length > 0)
+		{
+			_healthUI = new();
+			_healthUI.AddRange(healthUI);
+			UpdateUIHealth();
+		}
 	}
 
 	private void OnEnable()
@@ -68,6 +79,7 @@ public abstract class Character : MonoBehaviour, IDamageSource
 	protected virtual void OnDamageTaken(float damage, Vector3 sourcePosition, bool canKnockback)
 	{
 		_healthCurrent -= damage;
+		UpdateUIHealth();
 		
 		if (_healthCurrent <= 0)
 		{
@@ -93,6 +105,23 @@ public abstract class Character : MonoBehaviour, IDamageSource
 		{
 			float newHealth = _healthCurrent + heal;
 			_healthCurrent = newHealth > _healthMax ? _healthMax : newHealth;
+			UpdateUIHealth();
+		}
+	}
+
+	public void OnDamageTaken(float value)
+	{
+		OnDamageTaken(value, transform.position, false);
+	}
+
+	private void UpdateUIHealth()
+	{
+		if (_healthUI.Count > 0)
+		{
+			foreach (var ui in _healthUI)
+			{
+				ui.SetHealth(_healthCurrent, _healthMax);
+			}
 		}
 	}
 }
