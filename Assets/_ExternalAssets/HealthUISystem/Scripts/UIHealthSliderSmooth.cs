@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,24 +10,35 @@ namespace HealthUISystem {
 		[SerializeField] private float _speed = 1f;
 
 		private Slider _slider;
-		private float _targetValue = 1f;
+		private Coroutine _coroutineUpdateHealthBar;
 
 		private void Awake()
 		{
 			_slider = GetComponent<Slider>();
 		}
 
-		private void Update()
-		{
-			if (Mathf.Approximately(_slider.value, _targetValue) == false)
-			{
-				_slider.value = Mathf.MoveTowards(_slider.value, _targetValue, _speed * Time.deltaTime);
-			}
-		}
-
 		public void SetHealth(float current, float max)
 		{
-			_targetValue = Mathf.Clamp01(current / max);
+			float targetValue = Mathf.Clamp01(current / max);
+
+			if (_coroutineUpdateHealthBar != null)
+			{
+				StopCoroutine(_coroutineUpdateHealthBar);
+			}
+
+			_coroutineUpdateHealthBar = StartCoroutine(UpdateHealthBarRoutine(targetValue));
+		}
+		
+		private IEnumerator UpdateHealthBarRoutine(float targetValue)
+		{
+			while (Mathf.Approximately(_slider.value, targetValue) == false)
+			{
+				_slider.value = Mathf.MoveTowards(_slider.value, targetValue, _speed * Time.deltaTime);
+
+				yield return null;
+			}
+
+			_coroutineUpdateHealthBar = null;
 		}
 	}
 }
