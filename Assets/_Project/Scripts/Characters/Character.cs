@@ -1,38 +1,61 @@
-using HealthUISystem;
 using System;
 using System.Collections.Generic;
+
 using UnityEngine;
 
-public abstract class Character : MonoBehaviour, IDamageSource, IHealthOwner
+using HealthUISystem;
+using Abilities;
+
+public abstract class Character : MonoBehaviour, IDamageSource, IHealthOwner, IAbilityOwner
 {
+	[SerializeField] private InputEventChannel _inputChannel;
+
 	[SerializeField] private float _healthCurrent;
 	[SerializeField, Min(1)] private float _healthMax = 1;
 	[SerializeField] private float _damage = 0;
 
 	private List<Damageable> _damageableParts = new();
 
+	private List<AbilityBase> _abilities = new();
+
 	private List<IHealthUI> _healthUI = new();
 
 	public float Damage => _damage;
 
-	public event Action<Vector3> ActionKnockback;
+	public event Action<Vector3> Knockbacked;
 
 	private void Awake()
 	{
 		_healthCurrent = _healthMax;
 
+		InitCharacterComponents();
+		InitDamageableParts();
+		InitDamageDealers();
+		InitAbilities();
+		InitCollector();
+		InitUI();
+	}
+
+	private void InitCharacterComponents()
+	{
+		if (TryGetComponent<CharacterMovementHandler>(out CharacterMovementHandler movementHandler))
+		{
+			movementHandler.Init(this, _inputChannel);
+		}
+	}
+
+	private void InitDamageableParts()
+	{
 		Damageable[] damageables = GetComponentsInChildren<Damageable>();
 
 		if (damageables.Length > 0)
 		{
 			_damageableParts.AddRange(damageables);
 		}
-		else
-		{
-			Debug.LogError("Damageable parts not set!", this);
-			enabled = false;
-		}
+	}
 
+	private void InitDamageDealers()
+	{
 		DamageDealer[] damagings = GetComponentsInChildren<DamageDealer>();
 
 		if (damagings.Length > 0)
@@ -42,14 +65,33 @@ public abstract class Character : MonoBehaviour, IDamageSource, IHealthOwner
 				part.Init(this);
 			}
 		}
+	}
 
+	private void InitAbilities()
+	{
+		AbilityBase[] abilities = GetComponents<AbilityBase>();
+
+		if (abilities.Length > 0)
+		{
+			foreach (AbilityBase ability in abilities)
+			{
+				ability.Init(this, _inputChannel);
+			}
+		}
+	}
+
+	private void InitCollector()
+	{
 		Collector collector = GetComponentInChildren<Collector>();
 
 		if (collector != null)
 		{
 			collector.Init(this);
 		}
+	}
 
+	private void InitUI()
+	{
 		IHealthUI[] healthUI = GetComponentsInChildren<IHealthUI>();
 
 		if (healthUI.Length > 0)
@@ -63,7 +105,7 @@ public abstract class Character : MonoBehaviour, IDamageSource, IHealthOwner
 	{
 		foreach (Damageable part in _damageableParts)
 		{
-			part.ActionDamageTaken += OnDamageTaken;
+			part.DamageTaken += OnDamageTaken;
 		}
 	}
 
@@ -71,7 +113,7 @@ public abstract class Character : MonoBehaviour, IDamageSource, IHealthOwner
 	{
 		foreach (Damageable part in _damageableParts)
 		{
-			part.ActionDamageTaken -= OnDamageTaken;
+			part.DamageTaken -= OnDamageTaken;
 		}
 	}
 
@@ -88,7 +130,7 @@ public abstract class Character : MonoBehaviour, IDamageSource, IHealthOwner
 		{
 			if (canKnockback)
 			{
-				ActionKnockback?.Invoke(sourcePosition);
+				Knockbacked?.Invoke(sourcePosition);
 			}
 		}
 	}

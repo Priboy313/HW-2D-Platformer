@@ -5,8 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D), typeof(Character))]
 public class CharacterMovementHandler : MonoBehaviour
 {
-    [SerializeField] private InputEventChannel _inputChannel;
-
     [Header("Move")]
     [SerializeField] private float _moveSpeed = 3f;
 	
@@ -47,11 +45,11 @@ public class CharacterMovementHandler : MonoBehaviour
     public event Action ActionLanded;
     public event Action ActionKnockback;
 
-    private void Awake()
+    public void Init(Character character, InputEventChannel inputChannel = null)
     {
         bool hasErrors = false;
 
-        if (_inputChannel == null)
+        if (inputChannel == null)
         {
             _input = GetComponent<IInput>();
             
@@ -63,7 +61,7 @@ public class CharacterMovementHandler : MonoBehaviour
         }
         else
         {
-            _input = _inputChannel;
+            _input = inputChannel;
         }
 
         _onGroundTrigger = GetComponentInChildren<OnGroundTrigger>();
@@ -76,16 +74,18 @@ public class CharacterMovementHandler : MonoBehaviour
 
         enabled = !hasErrors;
 
-        _character = GetComponent<Character>();
+        _character = character;
         Rigidbody = GetComponent<Rigidbody2D>();
         Rigidbody.gravityScale = _defaultGravityScale;
+
+        AddInputListeners();
     }
 
-    private void OnEnable()
+    private void AddInputListeners()
     {
-        _input.ActionMove += OnInputMove;
-        _input.ActionJump += OnInputJump;
-        _character.ActionKnockback += OnKnockback;
+        _input.Moving += OnInputMove;
+        _input.Jumped += OnInputJump;
+        _character.Knockbacked += OnKnockback;
         _onGroundTrigger.ActionOnGround += OnGroundStateChanged;
     }
 
@@ -93,13 +93,13 @@ public class CharacterMovementHandler : MonoBehaviour
     {
         if (_input != null)
         {
-            _input.ActionMove -= OnInputMove;
-            _input.ActionJump -= OnInputJump;
+            _input.Moving -= OnInputMove;
+            _input.Jumped -= OnInputJump;
         }
 
         if (_character != null)
         {
-            _character.ActionKnockback -= OnKnockback;
+            _character.Knockbacked -= OnKnockback;
         }
 
         if (_onGroundTrigger != null)

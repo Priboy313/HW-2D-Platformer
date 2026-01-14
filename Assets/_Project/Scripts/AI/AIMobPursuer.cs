@@ -11,7 +11,7 @@ public class AIMobPursuer : AIMobBase
 	private AIMobVisionHandler _vision;
 	private Character _currentTarget;
 
-	public override event Action<float> ActionMove;
+	public override event Action<float> Moving;
 
 	private void OnValidate()
 	{
@@ -52,11 +52,11 @@ public class AIMobPursuer : AIMobBase
 	{
 		if (_currentTarget == null)
 		{
-			ActionMove?.Invoke(0);
+			Moving?.Invoke(0);
 			return;
 		}
 
 		float direction = Mathf.Sign(_currentTarget.transform.position.x - transform.position.x);
-		ActionMove?.Invoke(direction);
+		Moving?.Invoke(direction);
 	}
 }

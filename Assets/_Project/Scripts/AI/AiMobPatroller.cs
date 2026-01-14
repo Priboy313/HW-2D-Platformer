@@ -10,7 +10,7 @@ public class AIMobPatroller : AIMobBase
     private float _reachDistance = 0.5f;
     private float _reachDistanceSqr;
 
-    public override event Action<float> ActionMove;
+    public override event Action<float> Moving;
 
     private void Awake()
     {
@@ -60,18 +60,18 @@ public class AIMobPatroller : AIMobBase
 
             if (sqrDistance < _reachDistanceSqr)
             {
-                ActionMove?.Invoke(0f);
+                Moving?.Invoke(0f);
                 _currentWaypointIndex = (_currentWaypointIndex + 1) % _path.WaypointsCount;
             }
             else
             {
                 float moveDirection = Mathf.Sign(targetPosition.x - currentPosition.x);
-                ActionMove?.Invoke(moveDirection);
+                Moving?.Invoke(moveDirection);
             }
         }
         else
         {
-            ActionMove?.Invoke(0f);
+            Moving?.Invoke(0f);
         }
     }
 }

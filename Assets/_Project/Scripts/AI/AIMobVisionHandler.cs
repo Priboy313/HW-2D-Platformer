@@ -6,8 +6,8 @@ public class AIMobVisionHandler : MonoBehaviour
 {
 	private BoxCollider2D _visionTrigger;
 
-	public event Action<Character> ActionTargetFound;
-	public event Action ActionTargetLost;
+	public event Action<Character> TargetFound;
+	public event Action TargetLost;
 
 	public void Init()
 	{
@@ -42,7 +42,7 @@ public class AIMobVisionHandler : MonoBehaviour
 
 		if (target != null)
 		{
-			ActionTargetFound?.Invoke(target);
+			TargetFound?.Invoke(target);
 		}
 	}
 
@@ -52,7 +52,7 @@ public class AIMobVisionHandler : MonoBehaviour
 
 		if (target != null)
 		{
-			ActionTargetLost?.Invoke();
+			TargetLost?.Invoke();
 		}
 	}
 }

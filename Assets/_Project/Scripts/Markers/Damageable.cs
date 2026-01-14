@@ -9,7 +9,7 @@ public class Damageable : MonoBehaviour, IDamageable
 
 	private bool _canTakeDamage = true;
 
-	public event Action<float, Vector3, bool> ActionDamageTaken;
+	public event Action<float, Vector3, bool> DamageTaken;
 
 	private void OnEnable()
 	{
@@ -18,20 +18,20 @@ public class Damageable : MonoBehaviour, IDamageable
 
 	public void TryTakeDamage(float damage, Vector3 damageSourcePosition, bool canKnockback)
 	{
-		StartCoroutine(TakeDamageRoutine(damage, damageSourcePosition, canKnockback));
+		if (_canTakeDamage)
+		{
+			StartCoroutine(TakeDamageRoutine(damage, damageSourcePosition, canKnockback));
+		}
 	}
 
 	private IEnumerator TakeDamageRoutine(float damage, Vector3 damageSourcePosition, bool canKnockback)
 	{
-		if (_canTakeDamage)
-		{
-			_canTakeDamage = false;
+		_canTakeDamage = false;
 
-			ActionDamageTaken?.Invoke(damage, damageSourcePosition, canKnockback);
+		DamageTaken?.Invoke(damage, damageSourcePosition, canKnockback);
 
-			yield return new WaitForSeconds(_takingDelay);
+		yield return new WaitForSeconds(_takingDelay);
 
-			_canTakeDamage = true;
-		}
+		_canTakeDamage = true;
 	}
 }

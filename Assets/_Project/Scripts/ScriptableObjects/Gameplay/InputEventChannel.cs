@@ -4,36 +4,36 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "InputChannel", menuName = "Gameplay/InputChannel")]
 public class InputEventChannel : ScriptableObject, IInput
 {
-	public event Action<float> ActionMove;
-	public event Action ActionJump;
-	public event Action<float> ActionZoomChange;
-	public event Action ActionDevRenderStateToggle;
+	public event Action<float> Moving;
+	public event Action Jumped;
+	public event Action<float> ZoomChanged;
+	public event Action DevRenderStateToggled;
 
 	public void RaiseMove(float direction)
 	{
-		ActionMove?.Invoke(direction);
+		Moving?.Invoke(direction);
 	}
 
 	public void RaiseJump()
 	{
-		ActionJump?.Invoke();
+		Jumped?.Invoke();
 	}
 
 	public void RaiseZoomChange(float zoom)
 	{
-		ActionZoomChange?.Invoke(zoom);
+		ZoomChanged?.Invoke(zoom);
 	}
 
 	public void RaiseDevRenderStateToggle()
 	{
-		ActionDevRenderStateToggle?.Invoke();
+		DevRenderStateToggled?.Invoke();
 	}
 
 	private void OnDisable()
 	{
-		ActionMove = null;
-		ActionJump = null;
-		ActionZoomChange = null;
-		ActionDevRenderStateToggle = null;
+		Moving = null;
+		Jumped = null;
+		ZoomChanged = null;
+		DevRenderStateToggled = null;
 	}
 }

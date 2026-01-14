@@ -23,14 +23,14 @@ public class InGameRenderingHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        _inputChannel.ActionDevRenderStateToggle += OnDevPropRenderingChange;
+        _inputChannel.DevRenderStateToggled += OnDevPropRenderingChange;
     }
 
     private void OnDisable()
     {
         if (_inputChannel != null)
         {
-            _inputChannel.ActionDevRenderStateToggle -= OnDevPropRenderingChange;
+            _inputChannel.DevRenderStateToggled -= OnDevPropRenderingChange;
         }
     }
 

@@ -22,8 +22,8 @@ public class AIMobSwitcher : MonoBehaviour, IInput
 		set => _isAggressive = value;
 	}
 
-	public event Action<float> ActionMove;
-	public event Action ActionJump;
+	public event Action<float> Moving;
+	public event Action Jumped;
 
 	private void Awake()
 	{
@@ -63,8 +63,8 @@ public class AIMobSwitcher : MonoBehaviour, IInput
 		{
 			if (_vision != null && _pursuerController != null)
 			{
-				_vision.ActionTargetFound += OnTargetFound;
-				_vision.ActionTargetLost += OnTargetLost;
+				_vision.TargetFound += OnTargetFound;
+				_vision.TargetLost += OnTargetLost;
 			}
 		}
 	}
@@ -73,8 +73,8 @@ public class AIMobSwitcher : MonoBehaviour, IInput
 	{
 		if (_vision != null)
 		{
-			_vision.ActionTargetFound -= OnTargetFound;
-			_vision.ActionTargetLost -= OnTargetLost;
+			_vision.TargetFound -= OnTargetFound;
+			_vision.TargetLost -= OnTargetLost;
 		}
 	}
 
@@ -95,8 +95,8 @@ public class AIMobSwitcher : MonoBehaviour, IInput
 
 		if (_currentController != null)
 		{
-			_currentController.ActionMove -= OnMove;
-			_currentController.ActionJump -= OnJump;
+			_currentController.Moving -= OnMove;
+			_currentController.Jumped -= OnJump;
 			_currentController.AIExit();
 		}
 
@@ -105,19 +105,19 @@ public class AIMobSwitcher : MonoBehaviour, IInput
 		if (_currentController != null)
 		{
 			_currentController.AIEnter();
-			_currentController.ActionMove += OnMove;
-			_currentController.ActionJump += OnJump;
+			_currentController.Moving += OnMove;
+			_currentController.Jumped += OnJump;
 		}
 	}
 
 	private void OnMove(float direction)
 	{
-		ActionMove?.Invoke(direction);
+		Moving?.Invoke(direction);
 	}
 
 	private void OnJump()
 	{
-		ActionJump?.Invoke();
+		Jumped?.Invoke();
 	}
 
 	private void OnTargetFound(Character target)

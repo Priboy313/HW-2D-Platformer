@@ -3,10 +3,10 @@ using UnityEngine;
 
 public abstract class AIMobBase : MonoBehaviour, IInput
 {
-	public virtual event Action<float> ActionMove;
+	public virtual event Action<float> Moving;
 
 	#pragma warning disable 0067
-	public virtual event Action ActionJump;
+	public virtual event Action Jumped;
 	#pragma warning restore 0067
 
 	public abstract void AIUpdate();
@@ -18,7 +18,7 @@ public abstract class AIMobBase : MonoBehaviour, IInput
 
 	public virtual void AIExit()
 	{
-		ActionMove?.Invoke(0);
+		Moving?.Invoke(0);
 		enabled = false;
 	}
 }

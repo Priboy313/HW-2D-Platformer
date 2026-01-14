@@ -48,14 +48,14 @@ public class CameraHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        _inputChannel.ActionZoomChange += OnZoomChange;
+        _inputChannel.ZoomChanged += OnZoomChange;
     }
 
     private void OnDisable()
     {
 		if (_inputChannel != null)
 		{
-			_inputChannel.ActionZoomChange -= OnZoomChange;
+			_inputChannel.ZoomChanged -= OnZoomChange;
 		}
     }
 
