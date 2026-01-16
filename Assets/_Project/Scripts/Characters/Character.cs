@@ -8,6 +8,7 @@ using Abilities;
 
 public abstract class Character : MonoBehaviour, IDamageSource, IHealthOwner, IAbilityOwner
 {
+	[SerializeField] private SpriteRenderer _sprite;
 	[SerializeField] private InputEventChannel _inputChannel;
 
 	[SerializeField] private float _healthCurrent;
@@ -33,6 +34,10 @@ public abstract class Character : MonoBehaviour, IDamageSource, IHealthOwner, IA
 		InitDamageDealers();
 		InitAbilities();
 		InitCollector();
+	}
+
+	private void Start()
+	{
 		InitUI();
 	}
 
@@ -41,6 +46,11 @@ public abstract class Character : MonoBehaviour, IDamageSource, IHealthOwner, IA
 		if (TryGetComponent<CharacterMovementHandler>(out CharacterMovementHandler movementHandler))
 		{
 			movementHandler.Init(this, _inputChannel);
+			
+			if (_sprite != null && TryGetComponent<CharacterAnimationHandler>(out CharacterAnimationHandler animationHandler))
+			{
+				animationHandler.Init(_sprite, movementHandler);
+			}
 		}
 	}
 
@@ -77,6 +87,8 @@ public abstract class Character : MonoBehaviour, IDamageSource, IHealthOwner, IA
 			{
 				ability.Init(this, _inputChannel);
 			}
+
+			_abilities.AddRange(abilities);
 		}
 	}
 

@@ -427,6 +427,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 623906bf3f102d643855c1e7f57388e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sprite: {fileID: 8951157278243274433}
+  _inputChannel: {fileID: 0}
   _healthCurrent: 0
   _healthMax: 1
   _damage: 1
@@ -485,7 +487,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d018fa0641b1d14b90c0fb32fe5dab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inputChannel: {fileID: 0}
   _moveSpeed: 3
   _jumpHeight: 3
   _jumpInAirHeight: 3

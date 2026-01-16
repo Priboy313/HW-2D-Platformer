@@ -3,8 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterMovementHandler))]
 public class CharacterAnimationHandler : MonoBehaviour
 {
-	private Animator _animator;
 	private SpriteRenderer _spriteRenderer;
+	private Animator _animator;
 	private CharacterMovementHandler _movementHandler;
 
     private static readonly int s_isJump = Animator.StringToHash("isJump");
@@ -13,30 +13,16 @@ public class CharacterAnimationHandler : MonoBehaviour
 
     private bool _isMoving;
 
-    private void Awake()
+    public void Init(SpriteRenderer sprite, CharacterMovementHandler movementHandler)
 	{
-		bool hasErrors = false;
+		_spriteRenderer = sprite;
+		_animator = sprite.GetComponent<Animator>();
+		_movementHandler = movementHandler;
 
-		_animator = GetComponentInChildren<Animator>();
-		_spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-
-		if (_animator == null)
-		{
-			Debug.LogError("Animator not set!");
-			hasErrors = true;
-		}
-
-		if (_spriteRenderer == null)
-		{
-            Debug.LogError("SpriteRenderer not set!");
-            hasErrors = true;
-        }
-
-		enabled = !hasErrors;
-		_movementHandler = GetComponent<CharacterMovementHandler>();
+        Subscribe();
 	}
 
-    private void OnEnable()
+    private void Subscribe()
     {
 		_movementHandler.ActionJump += OnJump;
 		_movementHandler.ActionLanded += OnLanded;
@@ -61,7 +47,7 @@ public class CharacterAnimationHandler : MonoBehaviour
         if (_movementHandler.IsFreeAndReady)
         {
             float moveDirection = _movementHandler.InputDirection;
-            bool isMovingNow = moveDirection != 0;
+            bool isMovingNow = Mathf.Abs(moveDirection) > 0.01f;
 
             if (isMovingNow != _isMoving)
             {
@@ -69,9 +55,13 @@ public class CharacterAnimationHandler : MonoBehaviour
                 _animator.SetBool(s_isMove, _isMoving);
             }
 
-            if (_isMoving)
+            if (moveDirection > 0)
             {
-                _spriteRenderer.flipX = moveDirection < 0;
+                _spriteRenderer.flipX = false;
+            }
+            else if (moveDirection < 0)
+            {
+                _spriteRenderer.flipX = true;
             }
         }
         else

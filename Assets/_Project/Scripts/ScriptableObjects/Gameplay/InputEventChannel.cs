@@ -6,7 +6,11 @@ public class InputEventChannel : ScriptableObject, IInput
 {
 	public event Action<float> Moving;
 	public event Action Jumped;
+
 	public event Action<float> ZoomChanged;
+
+	public event Action<KeyCode> AbilityKeyPressed;
+
 	public event Action DevRenderStateToggled;
 
 	public void RaiseMove(float direction)
@@ -24,6 +28,11 @@ public class InputEventChannel : ScriptableObject, IInput
 		ZoomChanged?.Invoke(zoom);
 	}
 
+	public void RaiseAbilityKeyPressed(KeyCode key)
+	{
+		AbilityKeyPressed?.Invoke(key);
+	}
+
 	public void RaiseDevRenderStateToggle()
 	{
 		DevRenderStateToggled?.Invoke();
@@ -34,6 +43,7 @@ public class InputEventChannel : ScriptableObject, IInput
 		Moving = null;
 		Jumped = null;
 		ZoomChanged = null;
+		AbilityKeyPressed = null;
 		DevRenderStateToggled = null;
 	}
 }

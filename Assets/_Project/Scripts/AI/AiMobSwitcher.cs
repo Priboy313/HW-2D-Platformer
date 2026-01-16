@@ -24,6 +24,9 @@ public class AIMobSwitcher : MonoBehaviour, IInput
 
 	public event Action<float> Moving;
 	public event Action Jumped;
+	#pragma warning disable 0067
+	public virtual event Action<KeyCode> AbilityKeyPressed;
+	#pragma warning restore 0067
 
 	private void Awake()
 	{

@@ -7,6 +7,7 @@ public abstract class AIMobBase : MonoBehaviour, IInput
 
 	#pragma warning disable 0067
 	public virtual event Action Jumped;
+	public virtual event Action<KeyCode> AbilityKeyPressed;
 	#pragma warning restore 0067
 
 	public abstract void AIUpdate();

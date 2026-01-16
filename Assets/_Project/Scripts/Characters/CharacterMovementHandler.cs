@@ -78,10 +78,10 @@ public class CharacterMovementHandler : MonoBehaviour
         Rigidbody = GetComponent<Rigidbody2D>();
         Rigidbody.gravityScale = _defaultGravityScale;
 
-        AddInputListeners();
+        Subscribe();
     }
 
-    private void AddInputListeners()
+    private void Subscribe()
     {
         _input.Moving += OnInputMove;
         _input.Jumped += OnInputJump;
